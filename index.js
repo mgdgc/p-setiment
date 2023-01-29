@@ -5,6 +5,9 @@ const router = express.Router();
 // IP Request
 const requestIp = require('request-ip');
 
+// Crypto
+const crypto = require('crypto');
+
 // JSON 파일을 읽기 위한 FS 모듈
 const fs = require('fs');
 
@@ -62,6 +65,7 @@ router.get('/', async function (req, res) {
 
 router.get('/like', async function (req, res) {
     const ip = requestIp.getClientIp(req);
+    const digested = crypto.createHash('sha256').update(ip).digest('hex');
 
     const connection = await dbPool.getConnection();
     const sqlLikeCount = 'select count(*) as count from `like` where ipaddr = ? and `date` = curdate();';
@@ -69,7 +73,7 @@ router.get('/like', async function (req, res) {
 
     if (likeCount[0].count < 5) {
         const sqlLike = 'insert into `like` (ipaddr) values (?);';
-        await connection.query(sqlLike, [ip]);
+        await connection.query(sqlLike, [digested]);
         res.redirect('/');
     } else {
         sendError(res, "하루에 5번만 할 수 있어요.", "/");
@@ -78,10 +82,11 @@ router.get('/like', async function (req, res) {
 
 router.get('/sad', async function (req, res) {
     const ip = requestIp.getClientIp(req);
+    const digested = crypto.createHash('sha256').update(ip).digest('base64');
 
     const connection = await dbPool.getConnection();
     const sqlLikeCount = 'select count(*) as count from sad where ipaddr = ? and `date` = curdate();';
-    const [likeCount] = await connection.query(sqlLikeCount, [ip]);
+    const [likeCount] = await connection.query(sqlLikeCount, [digested]);
 
     if (likeCount[0].count < 5) {
         const sqlLike = 'insert into sad (ipaddr) values (?);';

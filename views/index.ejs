@@ -47,8 +47,13 @@
 
     <div data-bs-spy="scroll" data-bs-target="#navbar" data-bs-smooth-scroll="true">
 
-        <div class="container mt-7 d-flex justify-content-center" style="max-width: 640px;" id="overview">
-            <img class="img-fluid" src="/img/cover.png">
+        <div class="container mt-7" style="max-width: 640px;" id="overview">
+            <div class="d-flex justify-content-center">
+                <img class="img-fluid" src="/img/cover.png">
+            </div>
+            <div class="d-flex justify-content-center">
+                <a class="btn btn-primary" href="#assesments">↓ 바로 평가하기</a>
+            </div>
         </div>
 
         <!-- Overview -->
@@ -60,65 +65,65 @@
                     <%= totalScore.toFixed(1) %>점
                 </span>
                 <br>
-                <% if (calibrate != 0) { %>
-                <span>점수 보정치가 적용되고 있습니다.</span>
-                <% } %>
-                <br>
-                <br>
-                <div class="progress-stacked">
-                    <div class="progress" role="progressbar" aria-label="Segment one"
-                        aria-valuenow="<%= uploadScore / 3.0 %>" aria-valuemin="0" aria-valuemax="100"
-                        style="width: <%= uploadScore / 3.0 %>%">
-                        <div class="progress-bar"></div>
-                    </div>
-                    <div class="progress" role="progressbar" aria-label="Segment two"
-                        aria-valuenow="<%= promiseScore / 3.0 %>" aria-valuemin="0" aria-valuemax="100"
-                        style="width: <%= promiseScore / 3.0 %>%">
-                        <div class="progress-bar bg-success"></div>
-                    </div>
-                    <div class="progress" role="progressbar" aria-label="Segment three"
-                        aria-valuenow="<%= likeScore / 3.0 %>" aria-valuemin="0" aria-valuemax="100"
-                        style="width: <%= likeScore / 3.0 %>%">
-                        <div class="progress-bar bg-info"></div>
-                    </div>
-                </div>
-                <ul class="list-group mt-3">
-                    <li class="list-group-item d-flex justify-content-between align-items-start">
-                        <div class="ms-2 me-auto">
-                            <div class="ms-2 me-auto">이달 업로드</div>
+                <% if (calibrate !=0) { %>
+                    <span>점수 보정치가 적용되고 있습니다!</span>
+                    <% } %>
+                        <br>
+                        <br>
+                        <div class="progress-stacked">
+                            <div class="progress" role="progressbar" aria-label="Segment one"
+                                aria-valuenow="<%= uploadScore / 3.0 %>" aria-valuemin="0" aria-valuemax="100"
+                                style="width: <%= uploadScore / 3.0 %>%">
+                                <div class="progress-bar"></div>
+                            </div>
+                            <div class="progress" role="progressbar" aria-label="Segment two"
+                                aria-valuenow="<%= promiseScore / 3.0 %>" aria-valuemin="0" aria-valuemax="100"
+                                style="width: <%= promiseScore / 3.0 %>%">
+                                <div class="progress-bar bg-success"></div>
+                            </div>
+                            <div class="progress" role="progressbar" aria-label="Segment three"
+                                aria-valuenow="<%= likeScore / 3.0 %>" aria-valuemin="0" aria-valuemax="100"
+                                style="width: <%= likeScore / 3.0 %>%">
+                                <div class="progress-bar bg-info"></div>
+                            </div>
                         </div>
-                        <span class="badge bg-primary rounded-pill">
-                            <%= uploads.length %>
-                        </span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-start">
-                        <div class="ms-2 me-auto">
-                            <div class="ms-2 me-auto">약속</div>
-                        </div>
-                        <span class="badge bg-primary rounded-pill">
-                            <%= promiseDone[0].count + promiseHalf[0].count %> / <%= promiseDone[0].count +
-                                    promiseHalf[0].count + promiseFail[0].count %>
-                        </span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-start">
-                        <div class="ms-2 me-auto">
-                            <div class="ms-2 me-auto">개밥그릇 평가</div>
-                        </div>
-                        <span class="badge bg-primary rounded-pill">
-                            <% if (likeScore>= 80) { %>
-                                압도적으로 긍정적
-                                <% } else if (likeScore>= 60) { %>
-                                    긍정적
-                                    <% } else if (likeScore>= 40) { %>
-                                        복합적
-                                        <% } else if (likeScore>= 20) { %>
-                                            부정적
-                                            <% } else { %>
-                                                압도적으로 부정적
-                                                <% } %>
-                        </span>
-                    </li>
-                </ul>
+                        <ul class="list-group mt-3">
+                            <li class="list-group-item d-flex justify-content-between align-items-start">
+                                <div class="ms-2 me-auto">
+                                    <div class="ms-2 me-auto">이달 업로드</div>
+                                </div>
+                                <span class="badge bg-primary rounded-pill">
+                                    <%= uploads.length %>
+                                </span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-start">
+                                <div class="ms-2 me-auto">
+                                    <div class="ms-2 me-auto">약속</div>
+                                </div>
+                                <span class="badge bg-primary rounded-pill">
+                                    <%= promiseDone[0].count + promiseHalf[0].count %> / <%= promiseDone[0].count +
+                                            promiseHalf[0].count + promiseFail[0].count %>
+                                </span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-start">
+                                <div class="ms-2 me-auto">
+                                    <div class="ms-2 me-auto">개밥그릇 평가</div>
+                                </div>
+                                <span class="badge bg-primary rounded-pill">
+                                    <% if (likeScore>= 80) { %>
+                                        압도적으로 긍정적
+                                        <% } else if (likeScore>= 60) { %>
+                                            긍정적
+                                            <% } else if (likeScore>= 40) { %>
+                                                복합적
+                                                <% } else if (likeScore>= 20) { %>
+                                                    부정적
+                                                    <% } else { %>
+                                                        압도적으로 부정적
+                                                        <% } %>
+                                </span>
+                            </li>
+                        </ul>
             </div>
         </div>
 
@@ -184,10 +189,12 @@
                         <li class="list-group-item d-flex justify-content-between align-items-start">
                             <div class="ms-2 me-auto">
                                 <div class="ms-2 me-auto">
-                                    <div class="fw-bold"><%= promiseTop[i].promise %></div>
-                                    <% if (promiseTop[i].report && promiseTop[i].report !== "") { %>
+                                    <div class="fw-bold">
+                                        <%= promiseTop[i].promise %>
+                                    </div>
+                                    <% if (promiseTop[i].report && promiseTop[i].report !=="" ) { %>
                                         <%= promiseTop[i].report %>
-                                    <% } %>
+                                            <% } %>
                                 </div>
                             </div>
                             <span class="badge bg-primary rounded-pill">
@@ -225,13 +232,15 @@
                         aria-valuenow="<%= parseFloat(likes[0].count) / (likes[0].count + sads[0].count) * 100 %>"
                         aria-valuemin="0" aria-valuemax="100"
                         style="width: <%= parseFloat(likes[0].count) / (likes[0].count + sads[0].count) * 100 %>%">
-                        <div class="progress-bar">좋아요 <%= likes[0].count %></div>
+                        <div class="progress-bar">좋아요 <%= likes[0].count %>
+                        </div>
                     </div>
                     <div class="progress" role="progressbar" aria-label="Segment one"
                         aria-valuenow="<%= parseFloat(sads[0].count) / (likes[0].count + sads[0].count) * 100 %>"
                         aria-valuemin="0" aria-valuemax="100"
                         style="width: <%= parseFloat(sads[0].count) / (likes[0].count + sads[0].count) * 100 %>%">
-                        <div class="progress-bar bg-warning">킹받아요 <%= sads[0].count %></div>
+                        <div class="progress-bar bg-warning">킹받아요 <%= sads[0].count %>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -240,19 +249,56 @@
                 <h2>투표해주세요!</h2>
                 <span>투표는 총점에도 반영되어요!</span>
                 <br>
-                <span>투표는 취소할 수 없고, 하루에 다섯 번만 누를 수 있어요</span>
-                <br>
+                <span>투표는 취소할 수 없고, 하루에 다섯 번만 누를 수 있어요.</span>
+                <br><br>
+                <span>좋아요와 킹받아요를 통해 생각을 공유해주세요!</span>
+                <br><br>
                 <div class="btn-group mt-3" role="group" aria-label="Basic mixed styles example">
                     <a class="btn btn-primary" href="/like">🥰 좋아요</a>
                     <a class="btn btn-warning" href="/sad">🔥 킹받아요</a>
+                </div>
+            </div>
+            <div class="accordion mt-3" id="privacy">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                            개인정보처리방침 (투표 전 확인해주세요!)
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
+                        data-bs-parent="#privacy">
+                        <div class="accordion-body">
+                            <strong style="color: rgb(48, 209, 88);">투표 중복 방지 처리를 위해 IP 주소가 수집됩니다. </strong>
+                            <br>수집된 IP 주소는 중복 투표 방지를 위해서만 사용되며, 개인정보 식별이나 이외의 어떤 목적으로도 사용되지 않습니다.
+                            <br>또한, 수집된 IP 주소는 비인가자의 접근을 완전히 통제하고, 제 3자를 통해 처리하지 않습니다.
+                            <br>IP 주소는 단방향 해시로 암호화되어 데이터베이스 내부에 저장되므로, 저장된 IP 주소를 취득하더라도 <strong
+                                style="color: rgb(48, 209, 88);">물리적으로 원본 복원이 불가</strong>한 기록 방식을 사용하고 있습니다.
+                            <br>따라서 IP 주소 삭제 및 투표 철회를 요청하시더라도 <strong style="color: rgb(48, 209, 88);">IP 주소를 특정할 수 없어
+                                철회가 어려운 점</strong>을 알려드립니다.
+                            <br>투표에 참여함으로써 해당 내용에 동의함을 간주합니다.
+                            <br>위 내용에 이의를 신청할 수 있으며, <a href="https://mgchoi.com/#contact">개인정보관리책임자</a>를 통해 연락하시면 즉시
+                            조치할 것을 약속드립니다.
+                            <br><br>
+                            <img class="img-fluid" src="/img/ipaddr_exam.png">
+                            <br>
+                            <span>* 서버에 IP 주소는 위와 같이 개발자도 식별이 불가하도록 저장됩니다.</span>
+                            <br>
+                            <span>* 2023년 01월 30일 03:34:11, IP 주소 암호화가 적용되며 모든 데이터베이스가 초기화되었습니다.</span>
+                            <br>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
     <!--  Footer  -->
-    <div class="container footer mt-7">
-        
+    <div class="container-flex footer mt-7">
+    </div>
+    <div class="container-flex d-flex p-2 w-100 justify-content-between align-items-end r-bg-tertiary">
+        <span class="r-text-tertiary">©2020 <a href="https://mgchoi.com">mgchoi.com</a>. All rights Reserved.</span>
+        <span class="r-text-tertiary"><a href="https://mgchoi.com/#contact">개인정보관리책임자</a></span>
     </div>
 
     <!-- BootStrap -->
