@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="ko" data-bs-theme="dark">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>판자집 민심</title>
+
+    <!-- BootStrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+
+    <!--  My Stylesheet  -->
+    <link rel="stylesheet" type="text/css" href="/style/r_style.css">
+
+    <!--  JQuery  -->
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+</head>
+
+<body>
+
+    <!-- Upload -->
+    <div class="container mt-7" style="max-width: 640px;">
+        <h1>업로드</h1>
+        <form action="/admin/upload" method="post">
+            <div class="mb-3">
+              <label for="uploadTitle" class="form-label" >Title</label>
+              <input type="text" class="form-control" id="uploadTitle" name="title">
+            </div>
+            <div class="mb-3">
+              <label for="uploadUrl" class="form-label" >URL</label>
+              <input type="text" class="form-control" id="uploadUrl" name="url">
+            </div>
+            <div class="mb-3">
+              <label for="uploadDate" class="form-label" >Date</label>
+              <input type="date" class="form-control" id="uploadDate" name="date">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+          <a class="btn btn-primary mt-3" href="/admin/upload">전체보기</a>
+    </div>
+
+    <!-- Promise -->
+    <div class="container mt-7" style="max-width: 640px;">
+        <h1>약속</h1>
+        <form action="/admin/promise" method="post">
+            <div class="mb-3">
+              <label for="promise" class="form-label" >약속</label>
+              <input type="text" class="form-control" id="promise" name="promise">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+          <a class="btn btn-primary mt-3" href="/admin/promise">전체보기</a>
+    </div>
+
+    <!-- Calibrate -->
+    <div class="container mt-7" style="max-width: 640px;">
+        <h1>보정</h1>
+        <form action="/admin/calibrate" method="post">
+            <div class="mb-3">
+              <label for="calibrate" class="form-label" >보정</label>
+              <input type="text" class="form-control" id="calibrate" name="calibrate">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+    </div>
+
+    <!--  Footer  -->
+    <div class="container footer mt-7">
+
+    </div>
+
+    <!-- BootStrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
+
+    <!-- Script -->
+    <script type="text/javascript">
+        //https://stackoverflow.com/questions/63082529/how-to-properly-introduce-a-light-dark-mode-in-bootstrap
+        // Set theme to the user's preferred color scheme
+        function updateTheme() {
+            const colorMode = window.matchMedia("(prefers-color-scheme: dark)").matches ?
+                "dark" :
+                "light";
+            document.querySelector("html").setAttribute("data-bs-theme", colorMode);
+        }
+
+        // Set theme on load
+        updateTheme()
+
+        // Update theme when the preferred scheme changes
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', updateTheme)
+    </script>
+</body>
+
+</html>
