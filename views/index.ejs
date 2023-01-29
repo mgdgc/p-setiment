@@ -60,7 +60,9 @@
                     <%= totalScore.toFixed(1) %>점
                 </span>
                 <br>
-                <span>점수 보정치 <%= calibrate %>점이 적용되고 있습니다.</span>
+                <% if (calibrate != 0) { %>
+                <span>점수 보정치가 적용되고 있습니다.</span>
+                <% } %>
                 <br>
                 <br>
                 <div class="progress-stacked">
