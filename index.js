@@ -41,14 +41,16 @@ router.get('/', async function (req, res) {
 
     var uploadScore = uploads.length;
     if (uploadScore > 0 && uploadScore <= 4) {
-        uploadScore = uploadScore / 4.0 * 100;
+        uploadScore = uploadScore / 4.0 * 100 / 3;
     } else if (uploadScore > 4) {
-        uploadScore = 100;
+        uploadScore = 100.0 / 3;
     }
+    console.log(uploadScore);
 
-    var promiseScore = promiseDone[0].count * 2 + promiseHalf[0].count;
+    var promiseScore = parseFloat(promiseDone[0].count) * 2 + promiseHalf[0].count;
     if (promiseScore > 0) {
-        promiseScore / (promiseDone[0].count + promiseHalf[0].count + promiseFail[0].count) * 2 * 100;
+        const promiseTotal = (promiseDone[0].count + promiseHalf[0].count + promiseFail[0].count) * 2;
+        promiseScore = parseFloat(promiseScore) / promiseTotal * 100 / 3;
     }
 
     var likeScore = likes[0].count;
@@ -56,7 +58,7 @@ router.get('/', async function (req, res) {
         likeScore = likeScore / (likes[0].count + sads[0].count) * 100;
     }
 
-    var totalScore = (uploadScore / 3) + (promiseScore / 3) + (likeScore / 3) + calibrate[0].score;
+    var totalScore = uploadScore + promiseScore + (likeScore / 3) + calibrate[0].score;
 
     connection.release();
 
