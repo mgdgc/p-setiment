@@ -31,12 +31,18 @@ router.get('/', async function (req, res) {
     const startDate = date.getFullYear() + '-' + (date.getMonth() + 1) + '-01';
     const endDate = date.getFullYear() + '-' + (date.getMonth() + 1) + '-31';
     const [uploads] = await connection.query('select * from upload where date between ? and ? order by `date` desc;', [startDate, endDate]);
+    const prevDate = new Date(date.getFullYear(), date.getMonth() - 1, 1);
+    const prevStartDate = prevDate.getFullYear() + '-' + (prevDate.getMonth() + 1) + '-01';
+    const prevEndDate = prevDate.getFullYear() + '-' + (prevDate.getMonth() + 1) + '-31';
+    const [prevuploads] = await connection.query('select * from upload where date between ? and ? order by `date` desc;', [prevStartDate, prevEndDate]);
     const [promiseDone] = await connection.query('select count(*) as count from promise where `status` = 2;');
     const [promiseHalf] = await connection.query('select count(*) as count from promise where `status` = 1;');
     const [promiseFail] = await connection.query('select count(*) as count from promise where `status` = 0;');
     const [promiseTop] = await connection.query('select * from promise order by _id desc limit 5;');
     const [likes] = await connection.query('select count(*) as count from `like` where date between ? and ?;', [startDate, endDate]);
+    const [allLikes] = await connection.query('select count(*) as count from `like`;');
     const [sads] = await connection.query('select count(*) as count from sad where date between ? and ?;', [startDate, endDate]);
+    const [allSads] = await connection.query('select count(*) as count from sad;');
     const [calibrate] = await connection.query('select * from calibrate order by _id desc limit 1;');
 
     var uploadScore = uploads.length;
@@ -45,7 +51,6 @@ router.get('/', async function (req, res) {
     } else if (uploadScore > 4) {
         uploadScore = 100.0 / 3;
     }
-    console.log(uploadScore);
 
     var promiseScore = parseFloat(promiseDone[0].count) * 2 + promiseHalf[0].count;
     if (promiseScore > 0) {
@@ -58,11 +63,16 @@ router.get('/', async function (req, res) {
         likeScore = likeScore / (likes[0].count + sads[0].count) * 100;
     }
 
+    var allLikeScore = allLikes[0].count;
+    if (allLikeScore > 0) {
+        allLikeScore = allLikeScore / (allLikes[0].count + allSads[0].count) * 100;
+    }
+
     var totalScore = uploadScore + promiseScore + (likeScore / 3) + calibrate[0].score;
 
     connection.release();
 
-    res.render('index', { calibrate: calibrate[0].score, totalScore: totalScore, uploadScore: uploadScore, uploads: uploads, promiseScore: promiseScore, promiseDone: promiseDone, promiseHalf, promiseHalf, promiseFail: promiseFail, promiseTop: promiseTop, likeScore: likeScore, likes: likes, sads: sads });
+    res.render('index', { calibrate: calibrate[0].score, totalScore: totalScore, uploadScore: uploadScore, uploads: uploads, prevuploads: prevuploads, promiseScore: promiseScore, promiseDone: promiseDone, promiseHalf, promiseHalf, promiseFail: promiseFail, promiseTop: promiseTop, likeScore: likeScore, allLikes: allLikes, likes: likes, sads: sads, allSads: allSads, allLikeScore: allLikeScore });
 });
 
 router.get('/like', async function (req, res) {

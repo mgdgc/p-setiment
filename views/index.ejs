@@ -135,9 +135,11 @@
                 <span style="font-size: 4em;">
                     <%= uploads.length %>개
                 </span>
-                <div class="progress" role="progressbar" aria-label="Info example" aria-valuenow="<%= uploads.length / 4.0 * 100 %>"
-                    aria-valuemin="0" aria-valuemax="100">
-                    <div class="progress-bar bg-info" style="width: <%= uploads.length / 4.0 * 100 %>%"></div>
+                <div class="progress" role="progressbar" aria-label="Info example"
+                    aria-valuenow="<%= uploads.length == 0 ? 0 : uploads.length / 4.0 * 100 %>" aria-valuemin="0"
+                    aria-valuemax="100">
+                    <div class="progress-bar bg-info"
+                        style="width: <%= uploads.length == 0 ? 0 : uploads.length / 4.0 * 100 %>%"></div>
                 </div>
 
                 <ul class="list-group mt-3">
@@ -146,6 +148,30 @@
                             <div class="ms-2 me-auto">
                                 <div class="ms-2 me-auto"><a class="btn-link" href="<%= uploads[i].url %>">
                                         <%= uploads[i].title %>
+                                    </a></div>
+                            </div>
+                        </li>
+                        <% } %>
+                </ul>
+            </div>
+            <div class="card-neumorph p-3 mt-4">
+                <h2>지난달 업로드</h2>
+                <span style="font-size: 4em;">
+                    <%= prevuploads.length %>개
+                </span>
+                <div class="progress" role="progressbar" aria-label="Info example"
+                    aria-valuenow="<%= prevuploads.length == 0 ? 0 : prevuploads.length / 4.0 * 100 %>"
+                    aria-valuemin="0" aria-valuemax="100">
+                    <div class="progress-bar bg-info"
+                        style="width: <%= prevuploads.length == 0 ? 0 : prevuploads.length / 4.0 * 100 %>%"></div>
+                </div>
+
+                <ul class="list-group mt-3">
+                    <% for (var i=0; i < prevuploads.length; i++) { %>
+                        <li class="list-group-item d-flex justify-content-between align-items-start">
+                            <div class="ms-2 me-auto">
+                                <div class="ms-2 me-auto"><a class="btn-link" href="<%= prevuploads[i].url %>">
+                                        <%= prevuploads[i].title %>
                                     </a></div>
                             </div>
                         </li>
@@ -162,55 +188,53 @@
                 <span style="font-size: 4em;">
                     <%= promiseDone[0].count + promiseHalf[0].count %>개
                 </span>
-                <%
-                    var doneScore = promiseDone[0].count == 0 ? 0 : parseFloat(promiseDone[0].count) / (promiseDone[0].count + promiseHalf[0].count + promiseFail[0].count) * 100;
-                    var halfScore = promiseHalf[0].count == 0 ? 0 : parseFloat(promiseHalf[0].count) / (promiseDone[0].count + promiseHalf[0].count + promiseFail[0].count) * 100;
-                    var failScore = promiseFail[0].count == 0 ? 0 : parseFloat(promiseFail[0].count) / (promiseDone[0].count + promiseHalf[0].count + promiseFail[0].count) * 100;
-                %>
-                <div class="progress-stacked">
-                    <div class="progress" role="progressbar" aria-label="Segment one"
-                        aria-valuenow="<%= doneScore %>"
-                        aria-valuemin="0" aria-valuemax="100"
-                        style="width: <%= doneScore %>%">
-                        <div class="progress-bar"></div>
+                <% var doneScore=promiseDone[0].count==0 ? 0 : parseFloat(promiseDone[0].count) / (promiseDone[0].count
+                    + promiseHalf[0].count + promiseFail[0].count) * 100; var halfScore=promiseHalf[0].count==0 ? 0 :
+                    parseFloat(promiseHalf[0].count) / (promiseDone[0].count + promiseHalf[0].count +
+                    promiseFail[0].count) * 100; var failScore=promiseFail[0].count==0 ? 0 :
+                    parseFloat(promiseFail[0].count) / (promiseDone[0].count + promiseHalf[0].count +
+                    promiseFail[0].count) * 100; %>
+                    <div class="progress-stacked">
+                        <div class="progress" role="progressbar" aria-label="Segment one"
+                            aria-valuenow="<%= doneScore %>" aria-valuemin="0" aria-valuemax="100"
+                            style="width: <%= doneScore %>%">
+                            <div class="progress-bar"></div>
+                        </div>
+                        <div class="progress" role="progressbar" aria-label="Segment one"
+                            aria-valuenow="<%= halfScore %>" aria-valuemin="0" aria-valuemax="100"
+                            style="width: <%= halfScore %>%">
+                            <div class="progress-bar bg-warning"></div>
+                        </div>
+                        <div class="progress" role="progressbar" aria-label="Segment two"
+                            aria-valuenow="<%= failScore %>" aria-valuemin="0" aria-valuemax="100"
+                            style="width: <%= failScore %>%">
+                            <div class="progress-bar bg-danger"></div>
+                        </div>
                     </div>
-                    <div class="progress" role="progressbar" aria-label="Segment one"
-                        aria-valuenow="<%= halfScore %>"
-                        aria-valuemin="0" aria-valuemax="100"
-                        style="width: <%= halfScore %>%">
-                        <div class="progress-bar bg-warning"></div>
-                    </div>
-                    <div class="progress" role="progressbar" aria-label="Segment two"
-                        aria-valuenow="<%= failScore %>"
-                        aria-valuemin="0" aria-valuemax="100"
-                        style="width: <%= failScore %>%">
-                        <div class="progress-bar bg-danger"></div>
-                    </div>
-                </div>
-                <br>
-                <span class="mt-3">최근 약속</span>
-                <ul class="list-group mt-1">
-                    <% for (var i=0; i < promiseTop.length; i++) { %>
-                        <li class="list-group-item d-flex justify-content-between align-items-start">
-                            <div class="ms-2 me-auto">
+                    <br>
+                    <span class="mt-3">최근 약속</span>
+                    <ul class="list-group mt-1">
+                        <% for (var i=0; i < promiseTop.length; i++) { %>
+                            <li class="list-group-item d-flex justify-content-between align-items-start">
                                 <div class="ms-2 me-auto">
-                                    <div class="fw-bold">
-                                        <%= promiseTop[i].promise %>
+                                    <div class="ms-2 me-auto">
+                                        <div class="fw-bold">
+                                            <%= promiseTop[i].promise %>
+                                        </div>
+                                        <% if (promiseTop[i].report && promiseTop[i].report !=="" ) { %>
+                                            <%= promiseTop[i].report %>
+                                                <% } %>
                                     </div>
-                                    <% if (promiseTop[i].report && promiseTop[i].report !=="" ) { %>
-                                        <%= promiseTop[i].report %>
-                                            <% } %>
                                 </div>
-                            </div>
-                            <span class="badge bg-primary rounded-pill">
-                                <% switch (promiseTop[i].status) { case 0: %>안지킴
-                                    <% break; case 1: %>반만 지킴
-                                        <% break; case 2: %>지킴
-                                            <% break; } %>
-                            </span>
-                        </li>
-                        <% } %>
-                </ul>
+                                <span class="badge bg-primary rounded-pill">
+                                    <% switch (promiseTop[i].status) { case 0: %>안지킴
+                                        <% break; case 1: %>반만 지킴
+                                            <% break; case 2: %>지킴
+                                                <% break; } %>
+                                </span>
+                            </li>
+                            <% } %>
+                    </ul>
             </div>
         </div>
 
@@ -218,10 +242,12 @@
         <div class="container mt-7" style="max-width: 640px;" id="assesments">
             <h1>개밥그릇</h1>
             <div class="card-neumorph p-3 mt-4">
-                <h2>좋아요/킹받아요</h2>
-                <span style="font-size: 4em;">
+                <h2>개밥그릇 평가</h2>
+                <hr>
+                <h4 class="mt-2">이달 평가</h4>
+                <span style="font-size: 2em;">
                     <% if (likeScore>= 80) { %>
-                        압도적으로<br>긍정적
+                        압도적으로 긍정적
                         <% } else if (likeScore>= 60) { %>
                             긍정적
                             <% } else if (likeScore>= 40) { %>
@@ -229,32 +255,67 @@
                                 <% } else if (likeScore>= 20) { %>
                                     부정적
                                     <% } else { %>
-                                        압도적으로<br>부정적
+                                        압도적으로 부정적
                                         <% } %>
                 </span>
                 <div class="progress-stacked">
-                    <div class="progress" role="progressbar" aria-label="Segment one"
-                        aria-valuenow="<%= parseFloat(likes[0].count) / (likes[0].count + sads[0].count) * 100 %>"
-                        aria-valuemin="0" aria-valuemax="100"
-                        style="width: <%= parseFloat(likes[0].count) / (likes[0].count + sads[0].count) * 100 %>%">
-                        <div class="progress-bar">좋아요 <%= likes[0].count %>
+                    <% var likePercent=likes[0].count==0 ? 0 : parseFloat(likes[0].count) / (likes[0].count +
+                        sads[0].count) * 100; var sadPercent=sads[0].count==0 ? 0 : parseFloat(sads[0].count) /
+                        (likes[0].count + sads[0].count) * 100; %>
+                        <div class="progress" role="progressbar" aria-label="Segment one"
+                            aria-valuenow="<%= likePercent %>" aria-valuemin="0" aria-valuemax="100"
+                            style="width: <%= likePercent %>%">
+                            <div class="progress-bar">좋아요 <%= likes[0].count %>
+                            </div>
                         </div>
-                    </div>
-                    <div class="progress" role="progressbar" aria-label="Segment one"
-                        aria-valuenow="<%= parseFloat(sads[0].count) / (likes[0].count + sads[0].count) * 100 %>"
-                        aria-valuemin="0" aria-valuemax="100"
-                        style="width: <%= parseFloat(sads[0].count) / (likes[0].count + sads[0].count) * 100 %>%">
-                        <div class="progress-bar bg-warning">킹받아요 <%= sads[0].count %>
+                        <div class="progress" role="progressbar" aria-label="Segment one"
+                            aria-valuenow="<%= sadPercent %>" aria-valuemin="0" aria-valuemax="100"
+                            style="width: <%= sadPercent %>%">
+                            <div class="progress-bar bg-warning">킹받아요 <%= sads[0].count %>
+                            </div>
                         </div>
-                    </div>
+                </div>
+                <hr>
+                <h4 class="mt-2">전체 평가</h4>
+                <span style="font-size: 2em;">
+                    <% if (allLikeScore>= 80) { %>
+                        압도적으로 긍정적
+                        <% } else if (allLikeScore>= 60) { %>
+                            긍정적
+                            <% } else if (allLikeScore>= 40) { %>
+                                복합적
+                                <% } else if (allLikeScore>= 20) { %>
+                                    부정적
+                                    <% } else { %>
+                                        압도적으로 부정적
+                                        <% } %>
+                </span>
+                <div class="progress-stacked">
+                    <% var allLikePercent=allLikes[0].count==0 ? 0 : parseFloat(allLikes[0].count) / (allLikes[0].count
+                        + allSads[0].count) * 100; var allSadPercent=allSads[0].count==0 ? 0 :
+                        parseFloat(allSads[0].count) / (allLikes[0].count + allSads[0].count) * 100 %>
+                        <div class="progress" role="progressbar" aria-label="Segment one"
+                            aria-valuenow="<%= allLikePercent %>" aria-valuemin="0" aria-valuemax="100"
+                            style="width: <%= allLikePercent %>%">
+                            <div class="progress-bar">좋아요 <%= allLikes[0].count %>
+                            </div>
+                        </div>
+                        <div class="progress" role="progressbar" aria-label="Segment one"
+                            aria-valuenow="<%= allSadPercent %>" aria-valuemin="0" aria-valuemax="100"
+                            style="width: <%= allSadPercent %>%">
+                            <div class="progress-bar bg-warning">킹받아요 <%= allSads[0].count %>
+                            </div>
+                        </div>
                 </div>
             </div>
 
-            <div class="card-neumorph p-3 mt-4">
+            <div class="card-neumorph p-3 mt-7">
                 <h2>투표해주세요!</h2>
                 <span>투표는 총점에도 반영되어요!</span>
                 <br>
                 <span>투표는 취소할 수 없고, 하루에 다섯 번만 누를 수 있어요.</span>
+                <br>
+                <span class="r-text-secondary" style="font-size: 0.8em;">(투표 결과는 한달 단위로 총점에 합산됩니다.)</span>
                 <br><br>
                 <span>좋아요와 킹받아요를 통해 생각을 공유해주세요!</span>
                 <br><br>
@@ -296,6 +357,7 @@
                 </div>
             </div>
         </div>
+        
     </div>
 
     <!--  Footer  -->
