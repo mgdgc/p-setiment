@@ -1,3 +1,3 @@
 # p-setiment
 
-[[https://panza.mgchoi.com]]
+https://panza.mgchoi.com
