@@ -331,18 +331,16 @@ router.get('/like', async function (req, res) {
 
 router.get('/sad', async function (req, res) {
     const ip = requestIp.getClientIp(req);
-    const digested = crypto.createHash('sha256').update(ip).digest('base64');
-    console.log("ip: " + ip + ", digested: " + digested);
+    const digested = crypto.createHash('sha256').update(ip).digest('base64');;
 
     const connection = await dbPool.getConnection();
     const sqlLikeCount = 'select * from sad where ipaddr = ? and `date` = curdate();';
     const [likeCount] = await connection.query(sqlLikeCount, [digested]);
 
-    console.log("count: " + likeCount.length);
     if (likeCount.length < 5) {
         const sqlLike = 'insert into sad (ipaddr) values (?);';
         await connection.query(sqlLike, [digested]);
-        // res.redirect('/');
+        res.redirect('/');
     } else {
         sendError(res, "하루에 5번만 할 수 있어요.", "/");
     }
