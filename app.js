@@ -60,12 +60,12 @@ app.get('/error', function (req, res) {
     res.render('alert', { message: message, redirect: redirect });
 });
 
-app.use(function (err, req, res, next) {
-    if (err) {
-      return res.sendStatus(500);
-    }
-    next();
-});
+// app.use(function (err, req, res, next) {
+//     if (err) {
+//       return res.sendStatus(500);
+//     }
+//     next();
+// });
 
 app.use(function (req, res) {
     res.status(404).redirect('/error?message=페이지를 찾을 수 없습니다.&redirect=/');
