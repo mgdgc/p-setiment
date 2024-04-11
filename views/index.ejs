@@ -59,7 +59,7 @@
         <!-- Overview -->
         <% 
         var uploadScore = uploads.score; 
-        var prevUploadScore = uploads.prevUploadScore;
+        var prevUploadScore = uploads.prevScore;
 
         var promiseSuccess = promises.success;
         var promiseHalf = promises.half;
@@ -152,13 +152,24 @@
                 <h2>이달 업로드</h2>
                 <span style="font-size: 4em;">
                     <%= uploads.thisMonth.length %>개
+                    <%
+                    if (uploads.thisMonth.length >= 2) {
+                    %>
+                    <a href="#" data-bs-toggle="tooltip" data-bs-title="GIF 출처: 물빛보라">
+                        <img src="/img/good_doggy.gif" width="56px;">
+                    </a>
+                    <%
+                    }
+                    %>
                 </span>
+                
                 <div class="progress" role="progressbar" aria-label="Info example"
                     aria-valuenow="<%= uploadScore %>" aria-valuemin="0"
                     aria-valuemax="100">
                     <div class="progress-bar bg-info"
                         style="width: <%= uploadScore %>%"></div>
                 </div>
+                <p class="text-secondary">업로드 만점 점수는 본인의 간곡한 요청에 의해 한달 2개로 지정되었습니다.</p>
 
                 <ul class="list-group mt-3">
                     <% for (var i=0; i < uploads.thisMonth.length; i++) { %>
@@ -207,9 +218,27 @@
             <h1>약속</h1>
             <div class="card-neumorph p-3 mt-4">
                 <h2>지킨 약속</h2>
-                <span style="font-size: 4em;">
-                    <%= promiseSuccessHalf %>개
-                </span>
+
+                <div class="row text-center mt-4 mb-4">
+                    <div class="col">
+                        <h3>전부<br>지킴</h3>
+                        <span style="font-size: 2em;">
+                            <%= promiseSuccess %>개
+                        </span>
+                    </div>
+                    <div class="col">
+                        <h3>하다<br>말았네</h3>
+                        <span style="font-size: 2em;">
+                            <%= promiseHalf %>개
+                        </span>
+                    </div>
+                    <div class="col">
+                        <h3>칠지도<br>가져와</h3>
+                        <span style="font-size: 2em;">
+                            <%= promiseFailure %>개
+                        </span>
+                    </div>
+                </div>
                 
                     <div class="progress-stacked">
                         <div class="progress" role="progressbar" aria-label="Segment one"
@@ -254,32 +283,30 @@
                         <%
                         if (promises.list.length > 10) {
                         %>
-                        <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#promiseCollapse" aria-expanded="false" aria-controls="promiseCollapse">
+                        <button class="btn btn-primary mt-4" type="button" data-bs-toggle="collapse" data-bs-target="#promiseCollapse" aria-expanded="false" aria-controls="promiseCollapse">
                             나머지 약속 보기
                         </button>
-                        <div class="collapse" id="promiseCollapse">
-                            <div class="card card-body">
-                                <% for (var i = 10; i < promises.list.length; i++) { %>
-                                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                        <div class="collapse mt-4" id="promiseCollapse">
+                            <% for (var i = 10; i < promises.list.length; i++) { %>
+                                <li class="list-group-item d-flex justify-content-between align-items-start">
+                                    <div class="ms-2 me-auto">
                                         <div class="ms-2 me-auto">
-                                            <div class="ms-2 me-auto">
-                                                <div class="fw-bold">
-                                                    <%= promises.list[i].promise %>
-                                                </div>
-                                                <% if (promises.list[i].report && promises.list[i].report !== "") { %>
-                                                    <%= promises.list[i].report %>
-                                                        <% } %>
+                                            <div class="fw-bold">
+                                                <%= promises.list[i].promise %>
                                             </div>
+                                            <% if (promises.list[i].report && promises.list[i].report !== "") { %>
+                                                <%= promises.list[i].report %>
+                                                    <% } %>
                                         </div>
-                                        <span class="badge bg-primary rounded-pill">
-                                            <% switch (promises.list[i].status) { case 0: %>안지킴
-                                                <% break; case 1: %>반만 지킴
-                                                    <% break; case 2: %>지킴
-                                                        <% break; } %>
-                                        </span>
-                                    </li>
-                                <% } %>
-                            </div>
+                                    </div>
+                                    <span class="badge bg-primary rounded-pill">
+                                        <% switch (promises.list[i].status) { case 0: %>안지킴
+                                            <% break; case 1: %>반만 지킴
+                                                <% break; case 2: %>지킴
+                                                    <% break; } %>
+                                    </span>
+                                </li>
+                            <% } %>
                         </div>
                         <%
                         }
@@ -435,6 +462,9 @@
     <script type="text/javascript">
         //https://stackoverflow.com/questions/63082529/how-to-properly-introduce-a-light-dark-mode-in-bootstrap
         // Set theme to the user's preferred color scheme
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+
         function updateTheme() {
             const colorMode = window.matchMedia("(prefers-color-scheme: dark)").matches ?
                 "dark" :

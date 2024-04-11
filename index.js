@@ -38,7 +38,7 @@ router.get('/', async function (req, res) {
     const [uploads] = await connection.query('select * from upload where date between ? and ? order by `date` desc;', [startDate, endDate]);
     const [prevUploads] = await connection.query('select * from upload where date between ? and ? order by `date` desc;', [prevStartDate, prevEndDate]);
 
-    const [promises] = await connection.query('select * from promise;');
+    const [promises] = await connection.query('select * from promise order by _id desc;');
 
     const likeSql = 'select ' +
         'count(*) as `all`, ' +
