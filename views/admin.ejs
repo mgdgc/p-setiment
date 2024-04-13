@@ -54,6 +54,27 @@
           <a class="btn btn-primary mt-3" href="/admin/promise">전체보기</a>
     </div>
 
+    <!-- Trashcan -->
+    <div class="container mt-7" style="max-width: 640px;">
+      <h1>짬통</h1>
+      <form action="/admin/trashcan" method="post">
+        <div class="mb-3">
+          <label for="uploadTitle" class="form-label" >게임</label>
+          <input type="text" class="form-control" id="trashcanGame" name="game">
+        </div>
+        <div class="mb-3">
+          <label for="uploadUrl" class="form-label" >마지막 플레이</label>
+          <input type="date" class="form-control" id="trashcanLastPlayed" name="lastPlayed">
+        </div>
+        <div class="mb-3">
+          <label for="uploadDate" class="form-label" >엔딩 봄</label>
+          <input type="checkbox" class="form-check-input" id="trashcanFinished" name="finished">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+      <a class="btn btn-primary mt-3" href="/admin/trashcan">전체보기</a>
+    </div>
+
     <!-- Calibrate -->
     <div class="container mt-7" style="max-width: 640px;">
         <h1>보정</h1>

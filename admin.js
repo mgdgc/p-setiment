@@ -116,7 +116,7 @@ router.get('/upload/:id/edit', async function (req, res) {
 
     connection.release();
 
-    res.render('admin_edit.ejs', { upload: upload, promise: null });
+    res.render('admin_edit.ejs', { upload: upload, promise: null, trashcan: null });
 });
 
 router.post('/upload/:id/edit', async function (req, res) {
@@ -217,7 +217,7 @@ router.get('/promise/:id/edit', async function (req, res) {
 
     connection.release();
 
-    res.render('admin_edit.ejs', { upload: null, promise: promise });
+    res.render('admin_edit.ejs', { upload: null, promise: promise, trashcan: null });
 });
 
 router.post('/promise/:id/edit', async function (req, res) {
@@ -281,6 +281,137 @@ router.post('/calibrate', async function (req, res) {
     connection.release();
 
     res.redirect('/admin');
+});
+
+router.get('/trashcan', async function (req, res) {
+    // 로그인 확인
+    const admin = req.session.admin;
+    if (admin == null) {
+        res.redirect('/admin/login');
+        return;
+    }
+
+    const connection = await dbPool.getConnection();
+
+    const sql = 'select * from trashcan;';
+    const [trashcans] = await connection.query(sql);
+
+    connection.release();
+
+    res.render('admin_trashcan', { trashcans: trashcans });
+});
+
+router.post('/trashcan', async function (req, res) {
+    // 로그인 확인
+    const admin = req.session.admin;
+    if (admin == null) {
+        res.redirect('/admin/login');
+        return;
+    }
+
+    const game = req.body.game;
+    var lastPlayed = req.body.lastPlayed;
+    var finished = req.body.finished;
+
+    if (lastPlayed.length == 0) {
+        lastPlayed = null;
+    }
+
+    if (finished == null) {
+        finished = false;
+    } else {
+        if (finished == 'on') {
+            finished = true;
+        } else {
+            finished = false;
+        }
+    }
+
+    const connection = await dbPool.getConnection();
+
+    const sql = 'insert into trashcan (game, lastPlayed, finished) values (?, ?, ?);';
+    await connection.query(sql, [game, lastPlayed, finished]);
+
+    connection.release();
+
+    res.redirect('/admin');
+});
+
+router.get('/trashcan/:id/edit', async function (req, res) {
+    // 로그인 확인
+    const admin = req.session.admin;
+    if (admin == null) {
+        res.redirect('/admin/login');
+        return;
+    }
+
+    const id = req.params.id;
+
+    const connection = await dbPool.getConnection();
+
+    const sql = 'select * from trashcan where _id = ?;';
+    const [trashcan] = await connection.query(sql, [id]);
+
+    connection.release();
+
+    res.render('admin_edit', { upload: null, promise: null, trashcan: trashcan });
+});
+
+router.post('/trashcan/:id/edit', async function (req, res) {
+    // 로그인 확인
+    const admin = req.session.admin;
+    if (admin == null) {
+        res.redirect('/admin/login');
+        return;
+    }
+
+    const id = req.params.id;
+    const game = req.body.game;
+    var lastPlayed = req.body.lastPlayed;
+    var finished = req.body.finished;
+
+    if (lastPlayed.length == 0) {
+        lastPlayed = null;
+    }
+
+    if (finished == null) {
+        finished = false;
+    } else {
+        if (finished == 'on') {
+            finished = true;
+        } else {
+            finished = false;
+        }
+    }
+
+    const connection = await dbPool.getConnection();
+
+    const sql = 'update trashcan set game = ?, lastPlayed = ?, finished = ? where _id = ?;';
+    await connection.query(sql, [game, lastPlayed, finished, id]);
+
+    connection.release();
+
+    res.redirect('/admin/trashcan');
+});
+
+router.get('/trashcan/:id/delete', async function (req, res) {
+    // 로그인 확인
+    const admin = req.session.admin;
+    if (admin == null) {
+        res.redirect('/admin/login');
+        return;
+    }
+
+    const id = req.params.id;
+
+    const connection = await dbPool.getConnection();
+
+    const sql = 'delete from trashcan where _id = ?;';
+    await connection.query(sql, [id]);
+
+    connection.release();
+
+    res.redirect('/admin/trashcan');
 });
 
 

@@ -4,6 +4,23 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="apple-touch-icon" sizes="57x57" href="/favicon/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/favicon/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/favicon/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/favicon/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/favicon/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/favicon/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/favicon/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/favicon/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="/favicon/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/favicon/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/favicon/ms-icon-144x144.png">
+    <meta name="theme-color" content="#E9B88D">
 
     <title>판자 크리틱</title>
 
@@ -38,6 +55,9 @@
                         <a class="nav-link r-nav-link" href="#promises">약속</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link r-nav-link" href="#trashcan">짬통</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link r-nav-link" href="#assesments">개밥그릇</a>
                     </li>
                 </ul>
@@ -51,7 +71,7 @@
             <div class="d-flex justify-content-center">
                 <img class="img-fluid" src="/img/cover.png">
             </div>
-            <div class="d-flex justify-content-center">
+            <div class="d-flex justify-content-center mt-5">
                 <a class="btn btn-primary" href="#assesments">↓ 바로 평가하기</a>
             </div>
         </div>
@@ -71,6 +91,8 @@
 
         var thisMonthLikeScore = likes.score;
         var thisMonthLikeTotal = likes.count;
+
+        var today = new Date();
         %>
         <div class="container mt-7" style="max-width: 640px;" id="overview">
             <h1>톺아보기</h1>
@@ -142,6 +164,22 @@
                                 </span>
                             </li>
                         </ul>
+                        <ul class="list-group mt-3">
+                            <li class="list-group-item d-flex justify-content-between align-items-start">
+                                <div class="ms-2 me-auto">
+                                    <div class="ms-2 me-auto">짬통에 들어간 게임</div>
+                                </div>
+                                <span class="badge bg-primary rounded-pill">
+                                    <%= trashcans.unfinished.length %>
+                                </span>
+                            </li>
+                        </ul>
+
+                        <div class="container text-end mt-3">
+                            <a href="#overview" data-bs-toggle="tooltip" data-bs-title="점수 산정 방법: 이달 업로드 점수(2개 만점) / 3 + 약속 점수 / 3 + 개밥그릇 평가 / 3">
+                                실시간 점수 산정
+                            </a>
+                        </div>
             </div>
         </div>
 
@@ -169,7 +207,6 @@
                     <div class="progress-bar bg-info"
                         style="width: <%= uploadScore %>%"></div>
                 </div>
-                <p class="text-secondary">업로드 만점 점수는 본인의 간곡한 요청에 의해 한달 2개로 지정되었습니다.</p>
 
                 <ul class="list-group mt-3">
                     <% for (var i=0; i < uploads.thisMonth.length; i++) { %>
@@ -184,6 +221,12 @@
                         </li>
                         <% } %>
                 </ul>
+
+                <div class="container text-end mt-3">
+                    <a href="#uploads" data-bs-toggle="tooltip" data-bs-title="업로드 만점 점수는 본인의 간곡한 요청에 의해 한달 2개로 지정되었습니다.">
+                        업로드 점수 도움말
+                    </a>
+                </div>
             </div>
             <div class="card-neumorph p-3 mt-4">
                 <h2>지난달 업로드</h2>
@@ -280,13 +323,15 @@
                                 </span>
                             </li>
                         <% } %>
-                        <%
-                        if (promises.list.length > 10) {
-                        %>
-                        <button class="btn btn-primary mt-4" type="button" data-bs-toggle="collapse" data-bs-target="#promiseCollapse" aria-expanded="false" aria-controls="promiseCollapse">
-                            나머지 약속 보기
-                        </button>
-                        <div class="collapse mt-4" id="promiseCollapse">
+                    </ul>
+                    <%
+                    if (promises.list.length > 10) {
+                    %>
+                    <button class="btn btn-primary mt-4" type="button" data-bs-toggle="collapse" data-bs-target="#promiseCollapse" aria-expanded="false" aria-controls="promiseCollapse">
+                        나머지 약속 보기
+                    </button>
+                    <div class="collapse mt-4" id="promiseCollapse">
+                        <ul class="list-group mt-1">
                             <% for (var i = 10; i < promises.list.length; i++) { %>
                                 <li class="list-group-item d-flex justify-content-between align-items-start">
                                     <div class="ms-2 me-auto">
@@ -307,11 +352,87 @@
                                     </span>
                                 </li>
                             <% } %>
-                        </div>
-                        <%
-                        }
-                        %>
-                    </ul>
+                        </ul>
+                    </div>
+                    <%
+                    }
+                    %>
+            </div>
+            <div class="container text-end mt-3">
+                <a href="#trashcan" data-bs-toggle="tooltip" data-bs-title="냉장고 공간 뒤 숨겨진 회초리를 뜻합니다.">
+                    칠지도가 뭔가요?
+                </a>
+            </div>
+        </div>
+
+        <!-- Trashcan -->
+        <div class="container mt-7" style="max-width: 640px;" id="trashcan">
+            <h1>짬통</h1>
+            <div class="card-neumorph p-3 mt-4">
+                <h2>짬통행 게임 수</h2>
+                <span style="font-size: 4em;">
+                    <%= trashcans.unfinished.length %>개
+                </span>
+                <p class="text-secondary"></p>
+                <ul class="list-group mt-3">
+                    <% for (var i=0; i < trashcans.unfinished.length; i++) { %>
+                        <li class="list-group-item d-flex justify-content-between align-items-start">
+                            <div class="ms-2 me-auto">
+                                <div class="ms-2 me-auto">
+                                    <div class="fw-bold">
+                                        <%= trashcans.unfinished[i].game %>
+                                    </div>
+                                    <% 
+                                    if (trashcans.unfinished[i].lastPlayed != null) { 
+                                        const diff = Math.abs(today.getTime() - trashcans.unfinished[i].lastPlayed.getTime());
+                                        var lastPlayed = Math.ceil(diff / (1000 * 60 * 60 * 24));
+                                    %>
+                                    <span class="text-secondary mt-2">마지막으로 플레이한지 <%= lastPlayed %>일 째</span>
+                                    <% } %>
+                                </div>
+                            </div>
+                        </li>
+                    <% } %>
+                </ul>
+                <button class="btn btn-primary mt-4" type="button" data-bs-toggle="collapse" data-bs-target="#trashcanCollapse" aria-expanded="false" aria-controls="trashcanCollapse">
+                    모든 짬통 보기
+                </button>
+                <div class="collapse mt-4" id="trashcanCollapse">
+                    <ul class="list-group mt-3">
+                        <% for (var i = 0; i < trashcans.list.length; i++) { %>
+                            <li class="list-group-item d-flex justify-content-between align-items-start">
+                                <div class="ms-2 me-auto">
+                                    <div class="ms-2 me-auto">
+                                        <div class="fw-bold">
+                                            <% if (trashcans.list[i].finished) { %>
+                                                <span class="badge bg-success rounded-pill me-2">
+                                                    완료함
+                                                </span>
+                                            <% } else { %>
+                                                <span class="badge bg-danger rounded-pill me-2">
+                                                    짬통행
+                                                </span>
+                                            <% } %>
+                                            <%= trashcans.list[i].game %>
+                                        </div>
+                                        <% 
+                                        if (trashcans.list[i].lastPlayed != null) { 
+                                            const diff = Math.abs(today.getTime() - trashcans.list[0].lastPlayed.getTime());
+                                            var lastPlayed = Math.ceil(diff / (1000 * 60 * 60 * 24));
+                                        %>
+                                        <span class="text-secondary mt-2">마지막으로 플레이한지 <%= lastPlayed %>일 째</span>
+                                        <% } %>
+                                    </div>
+                                </div>
+                            </li>
+                        <% } %>
+                    </div>
+                </ul>
+            </div>
+            <div class="container text-end mt-3">
+                <a href="#trashcan" data-bs-toggle="tooltip" data-bs-title="짬통은 플레이 도중, 혹은 플레이 약속 후 변심, 질림, 귀찮음 등의 이유로 장기간 하지 않은 게임의 모음을 뜻합니다.">
+                    짬통이 뭔가요?
+                </a>
             </div>
         </div>
 

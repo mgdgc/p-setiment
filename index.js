@@ -40,6 +40,9 @@ router.get('/', async function (req, res) {
 
     const [promises] = await connection.query('select * from promise order by _id desc;');
 
+    const [trashcans] = await connection.query('select * from trashcan order by _id desc;');
+    const [unfinishedTrashcans] = await connection.query('select * from trashcan where finished = false order by lastPlayed asc;', []);
+
     const likeSql = 'select ' +
         'count(*) as `all`, ' +
         'count(case when date between ? and ? then 1 end) as thisMonth ' +
@@ -132,6 +135,10 @@ router.get('/', async function (req, res) {
             thisMonthSads: sads[0].thisMonth,
             allCount: likes[0].all + sads[0].all,
             count: likes[0].thisMonth + sads[0].thisMonth
+        },
+        trashcans: {
+            list: trashcans,
+            unfinished: unfinishedTrashcans
         }
     });
 });

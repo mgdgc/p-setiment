@@ -33,9 +33,20 @@
               <label for="uploadUrl" class="form-label" >URL</label>
               <input type="text" class="form-control" id="uploadUrl" name="url" value="<%= upload[0].url %>">
             </div>
+            <%
+            var datestr = upload[0].date;
+            var uploadDate = null;
+            if (datestr != null) {
+              const date = new Date(datestr);
+              const year = date.getFullYear();
+              const month = (date.getMonth() + 1).toString().padStart(2, '0');
+              const day = date.getDate().toString().padStart(2, '0');
+              uploadDate = `${year}-${month}-${day}`;
+            }
+            %>
             <div class="mb-3">
               <label for="uploadDate" class="form-label" >Date</label>
-              <input type="date" class="form-control" id="uploadDate" name="date" value="<%= upload[0].date %>">
+              <input type="date" class="form-control" id="uploadDate" name="date" value="<%= uploadDate %>">
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
           </form>
@@ -62,6 +73,39 @@
             <button type="submit" class="btn btn-primary">Submit</button>
           </form>
     </div>
+    <% } %>
+
+    <% if (trashcan != null) { %>
+      <!-- Trashcan -->
+      <div class="container mt-7" style="max-width: 640px;">
+          <h1>짬통</h1>
+          <form action="/admin/trashcan/<%= trashcan[0]._id %>/edit" method="post">
+            <div class="mb-3">
+              <label for="uploadTitle" class="form-label" >게임</label>
+              <input type="text" class="form-control" id="trashcanGame" name="game" value="<%= trashcan[0].game %>">
+            </div>
+            <div class="mb-3">
+              <%
+              var datestr = trashcan[0].lastPlayed;
+              var lastPlayed = null;
+              if (datestr != null) {
+                const date = new Date(datestr);
+                const year = date.getFullYear();
+                const month = (date.getMonth() + 1).toString().padStart(2, '0');
+                const day = date.getDate().toString().padStart(2, '0');
+                lastPlayed = `${year}-${month}-${day}`;
+              }
+              %>
+              <label for="uploadUrl" class="form-label" >마지막 플레이</label>
+              <input type="date" class="form-control" id="trashcanLastPlayed" name="lastPlayed" value="<%= lastPlayed %>">
+            </div>
+            <div class="mb-3">
+              <label for="uploadDate" class="form-label" >엔딩 봄</label>
+              <input type="checkbox" class="form-check-input" id="trashcanFinished" name="finished" <% if (trashcan[0].finished) { %> checked <% } %>>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+      </div>
     <% } %>
 
     <!--  Footer  -->
