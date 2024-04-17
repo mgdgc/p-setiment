@@ -40,8 +40,8 @@ router.get('/', async function (req, res) {
 
     const [promises] = await connection.query('select * from promise order by _id desc;');
 
-    const [trashcans] = await connection.query('select * from trashcan order by _id desc;');
-    const [unfinishedTrashcans] = await connection.query('select * from trashcan where finished = false order by lastPlayed asc;', []);
+    const [trashcans] = await connection.query('select * from trashcan order by lastPlayed desc;');
+    const [unfinishedTrashcans] = await connection.query('select * from trashcan where finished = false and lastPlayed is not null order by lastPlayed asc;', []);
 
     const likeSql = 'select ' +
         'count(*) as `all`, ' +

@@ -99,7 +99,13 @@
             <div class="card-neumorph p-3 mt-4">
                 <h2>실시간 총점</h2>
                 <span style="font-size: 4em;">
-                    <%= totalScore.toFixed(1) %>점
+                    <%= totalScore.toFixed(1) %>
+                </span>
+                <span style="font-size: 1em;">
+                    <strong>/ 100.0</strong>
+                </span>
+                <span style="font-size: 4em;">
+                    점
                 </span>
                 <br>
                 <% if (calibrate !=0) { %>
@@ -384,7 +390,7 @@
                                     </div>
                                     <% 
                                     if (trashcans.unfinished[i].lastPlayed != null) { 
-                                        const diff = Math.abs(today.getTime() - trashcans.unfinished[i].lastPlayed.getTime());
+                                        const diff = Math.abs(today.getTime() - trashcans.unfinished[i].lastPlayed.getTime() - 1);
                                         var lastPlayed = Math.ceil(diff / (1000 * 60 * 60 * 24));
                                     %>
                                     <span class="text-secondary mt-2">마지막으로 플레이한지 <%= lastPlayed %>일 째</span>
@@ -417,7 +423,7 @@
                                         </div>
                                         <% 
                                         if (trashcans.list[i].lastPlayed != null) { 
-                                            const diff = Math.abs(today.getTime() - trashcans.list[0].lastPlayed.getTime());
+                                            const diff = Math.abs(today.getTime() - trashcans.list[i].lastPlayed.getTime() - 1);
                                             var lastPlayed = Math.ceil(diff / (1000 * 60 * 60 * 24));
                                         %>
                                         <span class="text-secondary mt-2">마지막으로 플레이한지 <%= lastPlayed %>일 째</span>
