@@ -302,7 +302,7 @@
                         </div>
                         <div class="progress" role="progressbar" aria-label="Segment two"
                             aria-valuenow="<%= promiseFailure %>" aria-valuemin="0" aria-valuemax="<%= promises.list.length %>"
-                            style="width: <%= (promiseFailure == 0 ? 0 : parseFloat(promiseFailure)) * 100 %>%">
+                            style="width: <%= (promiseFailure == 0 ? 0 : parseFloat(promiseFailure / 3.0)) * 100 %>%">
                             <div class="progress-bar bg-danger"></div>
                         </div>
                     </div>
