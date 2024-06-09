@@ -5,6 +5,9 @@ const express = require('express');
 // JSON 파일을 읽기 위한 FS 모듈
 const fs = require('fs');
 
+// ENV
+require('dotenv').config({ path: '.env' });
+
 // Session
 const session = require('express-session');
 const MemoryStore = require('memorystore')(session);
@@ -26,7 +29,7 @@ app.disable('x-powered-by');
 // session 사용 및 환경설정
 const maxAge = 1000 * 60 * 30;
 app.use(session({
-    secret: 'BRG7t7^68GJ@',
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
     store: new MemoryStore({ checkPeriod: maxAge }),

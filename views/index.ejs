@@ -390,10 +390,10 @@
                                     </div>
                                     <% 
                                     if (trashcans.unfinished[i].lastPlayed != null) { 
-                                        const diff = Math.abs(today.getTime() - trashcans.unfinished[i].lastPlayed.getTime() - 1);
+                                        const diff = Math.abs(today.getTime() - trashcans.unfinished[i].lastPlayed.getTime());
                                         var lastPlayed = Math.ceil(diff / (1000 * 60 * 60 * 24));
                                     %>
-                                    <span class="text-secondary mt-2">마지막으로 플레이한지 <%= lastPlayed %>일 째</span>
+                                    <span class="text-secondary mt-2">마지막으로 플레이한지 <%= lastPlayed - 1 %>일 째</span>
                                     <% } %>
                                 </div>
                             </div>
